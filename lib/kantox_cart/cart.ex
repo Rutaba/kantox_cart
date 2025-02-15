@@ -13,11 +13,11 @@ defmodule KantoxCart.Cart do
   defp apply_discounts(items) do
     items
     |> Enum.map(fn {code, quantity} ->
-      {code, apply_discount(Enum.find(@products, &(&1.code == code)), quantity)}
+      {code, do_apply_discount(Enum.find(@products, &(&1.code == code)), quantity)}
     end)
   end
 
-  defp apply_discount(%Product{code: code, price: price}, quantity) do
+  defp do_apply_discount(%Product{code: code, price: price}, quantity) do
     # for generalizing the rule functions, the conditions are checked here so that future change could be handled easily
     cond do
       code == "GR1" -> buy_one_get_one(price, quantity)
